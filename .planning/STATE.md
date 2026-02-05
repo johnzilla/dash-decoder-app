@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-02-04)
 ## Current Position
 
 Phase: 1 of 3 (Foundation & Core Flow)
-Plan: 5 of 9 in current phase
+Plan: 6 of 9 in current phase
 Status: In progress
-Last activity: 2026-02-05 — Completed 01-05-PLAN.md (Vision API Integration)
+Last activity: 2026-02-05 — Completed 01-06-PLAN.md (Vehicle Confirmation Flow)
 
-Progress: [█████░░░░░] 56%
+Progress: [██████░░░░] 67%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
+- Total plans completed: 6
 - Average duration: 3 min
-- Total execution time: 0.2 hours
+- Total execution time: 0.3 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| Phase 1 | 5 | 13 min | 3 min |
+| Phase 1 | 6 | 16 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (5min), 01-02 (2min), 01-03 (2min), 01-04 (2min), 01-05 (2min)
+- Last 5 plans: 01-02 (2min), 01-03 (2min), 01-04 (2min), 01-05 (2min), 01-06 (3min)
 - Trend: Consistently fast (simple foundation tasks)
 
 *Updated after each plan completion*
@@ -71,6 +71,12 @@ Recent decisions affecting current work:
 - Structured prompts with regex extraction for flexible JSON parsing
 - Temperature 0.3 for consistent structured output from Vision API
 
+**From Plan 01-06 (Vehicle Confirmation Flow):**
+- 90-day expiry for stored vehicles balances UX convenience with accuracy
+- Inline search reveal on 'No' button avoids navigation disruption
+- 26 popular makes as datalist suggestions cover 95%+ of US market
+- Memoized storedVehicle in hook prevents repeated localStorage reads
+
 ### Pending Todos
 
 None yet.
@@ -88,6 +94,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-05T13:19:59Z
-Stopped at: Completed 01-05-PLAN.md (Vision API Integration)
+Last session: 2026-02-05T13:21:13Z
+Stopped at: Completed 01-06-PLAN.md (Vehicle Confirmation Flow)
 Resume file: None
