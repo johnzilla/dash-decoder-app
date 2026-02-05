@@ -1,13 +1,38 @@
-import { Button } from '@/components/ui/button'
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router';
+import { ScanProvider } from '@/context/ScanContext';
+
+// Lazy load routes for better performance
+const Home = lazy(() => import('@/routes/home'));
+const Scan = lazy(() => import('@/routes/scan'));
+const Results = lazy(() => import('@/routes/results'));
+
+// Loading fallback
+function Loading() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="flex items-center gap-2">
+        <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+        <span className="text-muted-foreground">Loading...</span>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold">DashDecoder</h1>
-        <p className="text-muted-foreground mt-2">AI-powered dashboard warning light diagnosis</p>
-        <Button className="mt-4">Get Started</Button>
-      </main>
-    </div>
+    <BrowserRouter>
+      <ScanProvider>
+        <div className="min-h-screen bg-background text-foreground">
+          <Suspense fallback={<Loading />}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/scan" element={<Scan />} />
+              <Route path="/results" element={<Results />} />
+            </Routes>
+          </Suspense>
+        </div>
+      </ScanProvider>
+    </BrowserRouter>
   );
 }
