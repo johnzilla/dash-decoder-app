@@ -10,16 +10,16 @@ See: .planning/PROJECT.md (updated 2026-02-04)
 ## Current Position
 
 Phase: 1 of 3 (Foundation & Core Flow)
-Plan: 4 of 9 in current phase
+Plan: 5 of 9 in current phase
 Status: In progress
-Last activity: 2026-02-05 — Completed 01-04-PLAN.md (Image Quality Validation)
+Last activity: 2026-02-05 — Completed 01-05-PLAN.md (Vision API Integration)
 
-Progress: [████░░░░░░] 44%
+Progress: [█████░░░░░] 56%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
+- Total plans completed: 5
 - Average duration: 3 min
 - Total execution time: 0.2 hours
 
@@ -27,10 +27,10 @@ Progress: [████░░░░░░] 44%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| Phase 1 | 4 | 11 min | 3 min |
+| Phase 1 | 5 | 13 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (5min), 01-02 (2min), 01-03 (2min), 01-04 (2min)
+- Last 5 plans: 01-01 (5min), 01-02 (2min), 01-03 (2min), 01-04 (2min), 01-05 (2min)
 - Trend: Consistently fast (simple foundation tasks)
 
 *Updated after each plan completion*
@@ -65,6 +65,12 @@ Recent decisions affecting current work:
 - Export thresholds for potential tuning based on real user data during beta
 - Optional submit anyway button for edge cases where validation may be overly strict
 
+**From Plan 01-05 (Vision API Integration):**
+- GPT-4o Vision (not GPT-4 Vision) for better warning light recognition
+- Direct fetch() instead of OpenAI SDK to reduce bundle size by ~200KB
+- Structured prompts with regex extraction for flexible JSON parsing
+- Temperature 0.3 for consistent structured output from Vision API
+
 ### Pending Todos
 
 None yet.
@@ -82,6 +88,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-05T13:15:05Z
-Stopped at: Completed 01-04-PLAN.md (Image Quality Validation)
+Last session: 2026-02-05T13:19:59Z
+Stopped at: Completed 01-05-PLAN.md (Vision API Integration)
 Resume file: None
