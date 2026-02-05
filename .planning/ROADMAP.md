@@ -35,14 +35,14 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 9 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Project setup with Vite, React, TypeScript, PWA, shadcn/ui
-- [ ] 01-02-PLAN.md — TypeScript types and Zod schemas for all data structures
-- [ ] 01-03-PLAN.md — Camera capture with live preview and photo capture
-- [ ] 01-04-PLAN.md — Image quality validation (blur/brightness detection)
-- [ ] 01-05-PLAN.md — Vision API integration for warning light analysis
-- [ ] 01-06-PLAN.md — Vehicle confirmation with localStorage persistence
-- [ ] 01-07-PLAN.md — Diagnosis display components (severity, explanation, fix steps)
-- [ ] 01-08-PLAN.md — Routing and complete scan flow integration
+- [x] 01-01-PLAN.md — Project setup with Vite, React, TypeScript, PWA, shadcn/ui
+- [x] 01-02-PLAN.md — TypeScript types and Zod schemas for all data structures
+- [x] 01-03-PLAN.md — Camera capture with live preview and photo capture
+- [x] 01-04-PLAN.md — Image quality validation (blur/brightness detection)
+- [x] 01-05-PLAN.md — Vision API integration for warning light analysis
+- [x] 01-06-PLAN.md — Vehicle confirmation with localStorage persistence
+- [x] 01-07-PLAN.md — Diagnosis display components (severity, explanation, fix steps)
+- [x] 01-08-PLAN.md — Routing and complete scan flow integration
 - [ ] 01-09-PLAN.md — Final verification and PWA testing
 
 ### Phase 2: Accounts & History
@@ -84,10 +84,10 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Core Flow | 0/9 | Ready for execution | - |
+| 1. Foundation & Core Flow | 8/9 | In progress | - |
 | 2. Accounts & History | 0/TBD | Not started | - |
 | 3. Subscription & Monetization | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-02-04*
-*Last updated: 2026-02-04 after Phase 1 planning*
+*Last updated: 2026-02-05 after 01-08 execution*
