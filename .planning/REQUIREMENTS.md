@@ -87,32 +87,32 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CAPT-01 | — | Pending |
-| CAPT-02 | — | Pending |
-| AI-01 | — | Pending |
-| AI-02 | — | Pending |
-| AI-03 | — | Pending |
-| DIAG-01 | — | Pending |
-| DIAG-02 | — | Pending |
-| DIAG-03 | — | Pending |
-| DIAG-04 | — | Pending |
-| DIAG-05 | — | Pending |
-| PAY-01 | — | Pending |
-| PAY-02 | — | Pending |
-| PAY-03 | — | Pending |
-| PAY-04 | — | Pending |
-| AUTH-01 | — | Pending |
-| AUTH-02 | — | Pending |
-| AUTH-03 | — | Pending |
-| AUTH-04 | — | Pending |
-| PWA-01 | — | Pending |
-| PWA-02 | — | Pending |
+| CAPT-01 | Phase 1 | Pending |
+| CAPT-02 | Phase 1 | Pending |
+| AI-01 | Phase 1 | Pending |
+| AI-02 | Phase 1 | Pending |
+| AI-03 | Phase 1 | Pending |
+| DIAG-01 | Phase 1 | Pending |
+| DIAG-02 | Phase 1 | Pending |
+| DIAG-03 | Phase 1 | Pending |
+| DIAG-04 | Phase 1 | Pending |
+| DIAG-05 | Phase 1 | Pending |
+| PWA-01 | Phase 1 | Pending |
+| PWA-02 | Phase 1 | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| PAY-01 | Phase 3 | Pending |
+| PAY-02 | Phase 3 | Pending |
+| PAY-03 | Phase 3 | Pending |
+| PAY-04 | Phase 3 | Pending |
 
 **Coverage:**
 - v1 requirements: 20 total
-- Mapped to phases: 0
-- Unmapped: 20 (pending roadmap creation)
+- Mapped to phases: 20
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-04*
-*Last updated: 2026-02-04 after initial definition*
+*Last updated: 2026-02-04 after roadmap creation*
