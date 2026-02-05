@@ -20,12 +20,7 @@ export function ScanningAnimation({
         {/* Scanning overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-primary/20 to-transparent">
           {/* Animated scan line */}
-          <div
-            className="absolute left-0 right-0 h-1 bg-primary/60 animate-scan"
-            style={{
-              animation: 'scan 2s ease-in-out infinite',
-            }}
-          />
+          <div className="absolute left-0 right-0 h-1 bg-primary/60 animate-scan" />
         </div>
 
         {/* Corner brackets */}
@@ -41,13 +36,6 @@ export function ScanningAnimation({
         <p className="text-muted-foreground">{statusText}</p>
       </div>
 
-      {/* Add keyframes to global CSS */}
-      <style>{`
-        @keyframes scan {
-          0%, 100% { top: 10%; opacity: 0.5; }
-          50% { top: 80%; opacity: 1; }
-        }
-      `}</style>
     </div>
   );
 }

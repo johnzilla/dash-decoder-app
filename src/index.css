@@ -67,3 +67,19 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Scanning animation for AI analysis */
+@keyframes scan {
+  0%, 100% {
+    top: 10%;
+    opacity: 0.5;
+  }
+  50% {
+    top: 80%;
+    opacity: 1;
+  }
+}
+
+.animate-scan {
+  animation: scan 2s ease-in-out infinite;
+}
