@@ -128,9 +128,9 @@ export async function analyzeWarningLight(imageDataUrl: string): Promise<VisionA
     // Extract and parse JSON response
     const rawResponse = extractJSON(content);
 
-    // Validate with Zod schema
+    // Validate with Zod schema - Zod will handle the unknown type
     const result = VisionAnalysisResultSchema.parse({
-      ...rawResponse,
+      ...(rawResponse as Record<string, unknown>),
       rawAnalysis: content, // Store original response for debugging
     });
 
