@@ -32,10 +32,18 @@ Decimal phases appear between their surrounding integers in numeric order.
   7. User sees step-by-step DIY fix instructions for common issues
   8. Every diagnosis screen displays "informational only, not professional advice" disclaimer
   9. App works as responsive mobile-first interface and is installable as a PWA
-**Plans**: TBD
+**Plans**: 9 plans
 
 Plans:
-- [ ] TBD (will be defined during phase planning)
+- [ ] 01-01-PLAN.md — Project setup with Vite, React, TypeScript, PWA, shadcn/ui
+- [ ] 01-02-PLAN.md — TypeScript types and Zod schemas for all data structures
+- [ ] 01-03-PLAN.md — Camera capture with live preview and photo capture
+- [ ] 01-04-PLAN.md — Image quality validation (blur/brightness detection)
+- [ ] 01-05-PLAN.md — Vision API integration for warning light analysis
+- [ ] 01-06-PLAN.md — Vehicle confirmation with localStorage persistence
+- [ ] 01-07-PLAN.md — Diagnosis display components (severity, explanation, fix steps)
+- [ ] 01-08-PLAN.md — Routing and complete scan flow integration
+- [ ] 01-09-PLAN.md — Final verification and PWA testing
 
 ### Phase 2: Accounts & History
 **Goal**: User can create an account, log in, and view their past scan history with photos and diagnoses
@@ -76,10 +84,10 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Core Flow | 0/TBD | Not started | - |
+| 1. Foundation & Core Flow | 0/9 | Ready for execution | - |
 | 2. Accounts & History | 0/TBD | Not started | - |
 | 3. Subscription & Monetization | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-02-04*
-*Last updated: 2026-02-04 after initial roadmap creation*
+*Last updated: 2026-02-04 after Phase 1 planning*
