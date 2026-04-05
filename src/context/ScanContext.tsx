@@ -85,7 +85,8 @@ export function ScanProvider({ children }: { children: ReactNode }) {
   // Parse ?v= variant from URL on mount
   const variant = useMemo(() => {
     const params = new URLSearchParams(window.location.search);
-    return params.get('v') || 'organic';
+    const v = params.get('v');
+    return v === 'diagnosis' || v === 'triage' ? v : 'organic';
   }, []);
 
   const reset = useCallback(() => {

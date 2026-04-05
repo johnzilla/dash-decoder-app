@@ -5,12 +5,13 @@ import { Label } from '@/components/ui/label';
 
 interface FeedbackCardProps {
   sessionId: number;
+  onSubmitted?: () => void;
 }
 
 type AccuracyRating = 'yes' | 'no' | 'unsure';
 type NextAction = 'fix-myself' | 'mechanic' | 'ignore' | 'other';
 
-export function FeedbackCard({ sessionId }: FeedbackCardProps) {
+export function FeedbackCard({ sessionId, onSubmitted }: FeedbackCardProps) {
   const [accuracyRating, setAccuracyRating] = useState<AccuracyRating | null>(null);
   const [usefulnessRating, setUsefulnessRating] = useState<number | null>(null);
   const [nextAction, setNextAction] = useState<NextAction | null>(null);
@@ -38,6 +39,7 @@ export function FeedbackCard({ sessionId }: FeedbackCardProps) {
       });
       if (res.status === 201) {
         setSubmitted(true);
+        onSubmitted?.();
       } else {
         const data = await res.json().catch(() => ({}));
         setError(data.error || 'Something went wrong. Please try again.');

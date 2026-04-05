@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router';
 import { DiagnosisResult } from '@/components/diagnosis';
 import { FeedbackCard } from '@/components/feedback/FeedbackCard';
+import { useScan } from '@/context/ScanContext';
 import type { Diagnosis } from '@/types';
 
 interface LocationState {
@@ -12,6 +13,7 @@ export default function Results() {
   const location = useLocation();
   const navigate = useNavigate();
   const { diagnosis, sessionId } = (location.state as LocationState) || {};
+  const { recordFunnelStep } = useScan();
 
   // If no diagnosis in state, redirect to home
   if (!diagnosis) {
@@ -45,7 +47,7 @@ export default function Results() {
 
       {/* Feedback */}
       {sessionId !== undefined && (
-        <FeedbackCard sessionId={sessionId} />
+        <FeedbackCard sessionId={sessionId} onSubmitted={() => recordFunnelStep('feedback')} />
       )}
     </div>
   );
