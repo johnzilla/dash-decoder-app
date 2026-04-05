@@ -1,15 +1,17 @@
 import { useLocation, useNavigate } from 'react-router';
 import { DiagnosisResult } from '@/components/diagnosis';
+import { FeedbackCard } from '@/components/feedback/FeedbackCard';
 import type { Diagnosis } from '@/types';
 
 interface LocationState {
   diagnosis: Diagnosis;
+  sessionId?: number;
 }
 
 export default function Results() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { diagnosis } = (location.state as LocationState) || {};
+  const { diagnosis, sessionId } = (location.state as LocationState) || {};
 
   // If no diagnosis in state, redirect to home
   if (!diagnosis) {
@@ -40,6 +42,11 @@ export default function Results() {
         diagnosis={diagnosis}
         onScanAnother={handleScanAnother}
       />
+
+      {/* Feedback */}
+      {sessionId !== undefined && (
+        <FeedbackCard sessionId={sessionId} />
+      )}
     </div>
   );
 }
