@@ -3,9 +3,20 @@ import {
   useContext,
   useReducer,
   useCallback,
+  useMemo,
+  useRef,
+  useState,
   ReactNode,
 } from 'react';
 import type { ScanFlowState, Diagnosis, VisionAnalysisResult, Vehicle } from '@/types';
+
+type FunnelStep = 'camera' | 'capture' | 'diagnosis' | 'feedback';
+interface FunnelTimestamps {
+  funnelCameraAt: string | null;
+  funnelCaptureAt: string | null;
+  funnelDiagnosisAt: string | null;
+  funnelFeedbackAt: string | null;
+}
 
 type ScanAction =
   | { type: 'START_CAPTURE' }
@@ -57,19 +68,55 @@ interface ScanContextValue {
   state: ScanFlowState;
   dispatch: React.Dispatch<ScanAction>;
   reset: () => void;
+  sessionId: number | null;
+  setSessionId: (id: number) => void;
+  variant: string;
+  recordFunnelStep: (step: FunnelStep) => void;
+  getFunnelTimestamps: () => FunnelTimestamps;
 }
 
 const ScanContext = createContext<ScanContextValue | null>(null);
 
 export function ScanProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(scanReducer, { step: 'idle' });
+  const [sessionId, setSessionIdState] = useState<number | null>(null);
+  const funnelRef = useRef<Record<string, string>>({});
+
+  // Parse ?v= variant from URL on mount
+  const variant = useMemo(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('v') || 'organic';
+  }, []);
 
   const reset = useCallback(() => {
     dispatch({ type: 'RESET' });
+    setSessionIdState(null);
+    funnelRef.current = {};
   }, []);
 
+  const setSessionId = useCallback((id: number) => {
+    setSessionIdState(id);
+  }, []);
+
+  const recordFunnelStep = useCallback((step: FunnelStep) => {
+    if (!funnelRef.current[step]) {
+      funnelRef.current[step] = new Date().toISOString();
+    }
+  }, []);
+
+  const getFunnelTimestamps = useCallback((): FunnelTimestamps => ({
+    funnelCameraAt: funnelRef.current['camera'] || null,
+    funnelCaptureAt: funnelRef.current['capture'] || null,
+    funnelDiagnosisAt: funnelRef.current['diagnosis'] || null,
+    funnelFeedbackAt: funnelRef.current['feedback'] || null,
+  }), []);
+
   return (
-    <ScanContext.Provider value={{ state, dispatch, reset }}>
+    <ScanContext.Provider value={{
+      state, dispatch, reset,
+      sessionId, setSessionId, variant,
+      recordFunnelStep, getFunnelTimestamps,
+    }}>
       {children}
     </ScanContext.Provider>
   );
