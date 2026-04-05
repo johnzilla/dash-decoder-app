@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import { ScanProvider } from '@/context/ScanContext';
+import { PrivacyBanner } from '@/components/PrivacyBanner';
 
 // Lazy load routes for better performance
 const Home = lazy(() => import('@/routes/home'));
@@ -23,7 +24,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ScanProvider>
-        <div className="min-h-screen bg-background text-foreground">
+        <div className="min-h-screen bg-background text-foreground pb-10">
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -31,6 +32,7 @@ export default function App() {
               <Route path="/results" element={<Results />} />
             </Routes>
           </Suspense>
+          <PrivacyBanner />
         </div>
       </ScanProvider>
     </BrowserRouter>
