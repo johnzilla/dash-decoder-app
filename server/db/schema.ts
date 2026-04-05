@@ -19,6 +19,9 @@ export const feedback = pgTable('feedback', {
   createdAt: timestamp('created_at').notNull().defaultNow(),
   rating: integer('rating'),
   comment: text('comment'),
+  accuracyRating: varchar('accuracy_rating', { length: 10 }),
+  usefulnessRating: integer('usefulness_rating'),
+  nextAction: varchar('next_action', { length: 20 }),
 });
 
 export const aiCalls = pgTable('ai_calls', {
