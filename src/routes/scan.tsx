@@ -22,17 +22,19 @@ function fileToObjectUrl(file: File): string {
 
 export default function Scan() {
   const navigate = useNavigate();
-  const { state, dispatch, reset } = useScan();
+  const { state, dispatch, reset, sessionId, setSessionId, variant, recordFunnelStep, getFunnelTimestamps } = useScan();
   const { storedVehicle, saveVehicle } = useVehicleStorage();
 
   // Start in capturing mode when page loads
   useEffect(() => {
+    recordFunnelStep('camera');
     dispatch({ type: 'START_CAPTURE' });
     return () => reset();
-  }, [dispatch, reset]);
+  }, [dispatch, reset, recordFunnelStep]);
 
   // Handle photo capture — receives File from camera
   const handleCapture = useCallback(async (imageFile: File) => {
+    recordFunnelStep('capture');
     dispatch({ type: 'CAPTURE_COMPLETE', imageFile });
 
     // Validate image quality using a data URL (imageQuality validator needs URL)
@@ -54,13 +56,14 @@ export default function Scan() {
     dispatch({ type: 'START_ANALYSIS', imageFile });
 
     try {
-      const analysis = await analyzeWarningLight(imageFile);
-      dispatch({ type: 'ANALYSIS_COMPLETE', imageFile, analysis });
+      const result = await analyzeWarningLight(imageFile);
+      if (result.sessionId) setSessionId(result.sessionId);
+      dispatch({ type: 'ANALYSIS_COMPLETE', imageFile, analysis: result });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Analysis failed';
       dispatch({ type: 'ERROR', message, canRetry: true });
     }
-  }, [dispatch]);
+  }, [dispatch, recordFunnelStep, setSessionId]);
 
   // Handle vehicle confirmation
   const handleVehicleConfirm = useCallback(async (vehicle: Vehicle) => {
@@ -75,8 +78,29 @@ export default function Scan() {
     try {
       const diagnosisData = await generateDiagnosis(
         state.analysis.warningLight,
-        vehicle
+        vehicle,
+        sessionId ?? undefined
       );
+
+      recordFunnelStep('diagnosis');
+
+      // Fire-and-forget: send funnel timestamps, device data, and variant to backend
+      if (sessionId) {
+        fetch(`/api/sessions/${sessionId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...getFunnelTimestamps(),
+            userAgent: navigator.userAgent,
+            screenWidth: window.screen.width,
+            screenHeight: window.screen.height,
+            connectionType: 'connection' in navigator
+              ? ((navigator as unknown as Record<string, Record<string, unknown>>).connection?.effectiveType as string) ?? null
+              : null,
+            variant,
+          }),
+        }).catch(() => { /* best-effort */ });
+      }
 
       // Use an object URL from the captured file for display
       const imageDataUrl = fileToObjectUrl(state.imageFile);
@@ -94,12 +118,12 @@ export default function Scan() {
       };
 
       dispatch({ type: 'DIAGNOSIS_COMPLETE', diagnosis });
-      navigate('/results', { state: { diagnosis } });
+      navigate('/results', { state: { diagnosis, sessionId } });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Diagnosis failed';
       dispatch({ type: 'ERROR', message, canRetry: true });
     }
-  }, [dispatch, navigate, saveVehicle, state]);
+  }, [dispatch, navigate, saveVehicle, state, sessionId, variant, recordFunnelStep, getFunnelTimestamps]);
 
   // Handle retake
   const handleRetake = useCallback(() => {
@@ -120,8 +144,9 @@ export default function Scan() {
             onRetake={handleRetake}
             onSubmitAnyway={() => {
               dispatch({ type: 'START_ANALYSIS', imageFile: state.imageFile });
-              analyzeWarningLight(state.imageFile).then((analysis) => {
-                dispatch({ type: 'ANALYSIS_COMPLETE', imageFile: state.imageFile, analysis });
+              analyzeWarningLight(state.imageFile).then((result) => {
+                if (result.sessionId) setSessionId(result.sessionId);
+                dispatch({ type: 'ANALYSIS_COMPLETE', imageFile: state.imageFile, analysis: result });
               }).catch((error) => {
                 const message = error instanceof Error ? error.message : 'Analysis failed';
                 dispatch({ type: 'ERROR', message, canRetry: true });
