@@ -81,9 +81,9 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] 05-01-PLAN.md — Feedback card UI and POST /api/sessions/:id/feedback endpoint
-- [ ] 05-02-PLAN.md — Funnel timestamps, device data capture, A/B variant tracking
-- [ ] 05-03-PLAN.md — Plausible Analytics script and privacy notice banner
+- [x] 05-01-PLAN.md — Feedback card UI and POST /api/sessions/:id/feedback endpoint
+- [x] 05-02-PLAN.md — Funnel timestamps, device data capture, A/B variant tracking
+- [x] 05-03-PLAN.md — Plausible Analytics script and privacy notice banner
 
 #### Phase 6: Hardening & Tests
 **Goal**: Backend endpoints are protected against abuse with rate limiting and all API behavior is verified by automated integration tests
