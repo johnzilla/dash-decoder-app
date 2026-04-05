@@ -1,20 +1,27 @@
+import { useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { ImageQualityResult } from '@/types';
 
 interface ImageQualityFeedbackProps {
-  imageDataUrl: string;
+  imageFile: File;
   result: ImageQualityResult;
   onRetake: () => void;
   onSubmitAnyway?: () => void; // Optional "submit anyway" for edge cases
 }
 
 export function ImageQualityFeedback({
-  imageDataUrl,
+  imageFile,
   result,
   onRetake,
   onSubmitAnyway,
 }: ImageQualityFeedbackProps) {
+  const objectUrl = useMemo(() => URL.createObjectURL(imageFile), [imageFile]);
+
+  useEffect(() => {
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [objectUrl]);
+
   if (result.isValid) {
     return null;
   }
@@ -45,7 +52,7 @@ export function ImageQualityFeedback({
         {/* Preview of captured image */}
         <div className="relative aspect-[4/3] bg-muted rounded-lg overflow-hidden">
           <img
-            src={imageDataUrl}
+            src={objectUrl}
             alt="Captured photo with quality issues"
             className="absolute inset-0 w-full h-full object-cover opacity-75"
           />

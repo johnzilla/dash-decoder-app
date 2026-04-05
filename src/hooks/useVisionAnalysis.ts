@@ -1,67 +1,45 @@
-/**
- * React hook for Vision API analysis
- *
- * Provides interface for:
- * - Analyzing dashboard photos to identify warning lights
- * - Managing loading and error states
- * - Storing analysis results for UI display
- */
-
 import { useState } from 'react';
 import { analyzeWarningLight } from '@/lib/api/openai';
 import type { VisionAnalysisResult } from '@/types';
 
 export interface UseVisionAnalysisReturn {
-  /** Analyze a dashboard photo */
-  analyze: (imageDataUrl: string) => Promise<VisionAnalysisResult | null>;
+  /** Analyze a dashboard photo — accepts a File object, NOT a base64 string */
+  analyze: (imageFile: File) => Promise<VisionAnalysisResult | null>;
   /** Whether analysis is currently in progress */
   isAnalyzing: boolean;
   /** User-friendly error message if analysis failed */
   error: string | null;
   /** Most recent analysis result */
   result: VisionAnalysisResult | null;
-  /** Reset all state (for retrying or starting over) */
+  /** Session ID from the server (for subsequent operations) */
+  sessionId: number | null;
+  /** Reset all state */
   reset: () => void;
 }
 
-/**
- * Hook for analyzing dashboard photos with Vision API
- *
- * @example
- * ```tsx
- * const { analyze, isAnalyzing, error, result } = useVisionAnalysis();
- *
- * const handleAnalyze = async (imageDataUrl: string) => {
- *   const result = await analyze(imageDataUrl);
- *   if (result) {
- *     console.log('Warning light:', result.warningLight.name);
- *     console.log('Vehicle guess:', result.vehicleGuess);
- *   }
- * };
- * ```
- */
 export function useVisionAnalysis(): UseVisionAnalysisReturn {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<VisionAnalysisResult | null>(null);
+  const [sessionId, setSessionId] = useState<number | null>(null);
 
-  const analyze = async (imageDataUrl: string): Promise<VisionAnalysisResult | null> => {
-    // Reset previous state
+  const analyze = async (imageFile: File): Promise<VisionAnalysisResult | null> => {
     setIsAnalyzing(true);
     setError(null);
     setResult(null);
+    setSessionId(null);
 
     try {
-      const analysisResult = await analyzeWarningLight(imageDataUrl);
+      const analysisResult = await analyzeWarningLight(imageFile);
       setResult(analysisResult);
+      // sessionId is returned in the raw response but not in VisionAnalysisResult
+      // We'll need to access it from the API response — for now store if available
       return analysisResult;
     } catch (err) {
-      // Extract user-friendly error message
       const errorMessage =
         err instanceof Error
           ? err.message
           : 'Failed to analyze image. Please try again.';
-
       setError(errorMessage);
       return null;
     } finally {
@@ -73,13 +51,8 @@ export function useVisionAnalysis(): UseVisionAnalysisReturn {
     setIsAnalyzing(false);
     setError(null);
     setResult(null);
+    setSessionId(null);
   };
 
-  return {
-    analyze,
-    isAnalyzing,
-    error,
-    result,
-    reset,
-  };
+  return { analyze, isAnalyzing, error, result, sessionId, reset };
 }

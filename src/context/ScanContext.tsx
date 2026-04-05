@@ -9,10 +9,10 @@ import type { ScanFlowState, Diagnosis, VisionAnalysisResult, Vehicle } from '@/
 
 type ScanAction =
   | { type: 'START_CAPTURE' }
-  | { type: 'CAPTURE_COMPLETE'; imageDataUrl: string }
-  | { type: 'VALIDATION_FAILED'; imageDataUrl: string }
-  | { type: 'START_ANALYSIS'; imageDataUrl: string }
-  | { type: 'ANALYSIS_COMPLETE'; imageDataUrl: string; analysis: VisionAnalysisResult }
+  | { type: 'CAPTURE_COMPLETE'; imageFile: File }
+  | { type: 'VALIDATION_FAILED'; imageFile: File }
+  | { type: 'START_ANALYSIS'; imageFile: File }
+  | { type: 'ANALYSIS_COMPLETE'; imageFile: File; analysis: VisionAnalysisResult }
   | { type: 'VEHICLE_CONFIRMED'; vehicle: Vehicle }
   | { type: 'DIAGNOSIS_COMPLETE'; diagnosis: Diagnosis }
   | { type: 'ERROR'; message: string; canRetry: boolean }
@@ -23,22 +23,22 @@ function scanReducer(state: ScanFlowState, action: ScanAction): ScanFlowState {
     case 'START_CAPTURE':
       return { step: 'capturing' };
     case 'CAPTURE_COMPLETE':
-      return { step: 'validating', imageDataUrl: action.imageDataUrl };
+      return { step: 'validating', imageFile: action.imageFile };
     case 'VALIDATION_FAILED':
-      return { step: 'validating', imageDataUrl: action.imageDataUrl };
+      return { step: 'validating', imageFile: action.imageFile };
     case 'START_ANALYSIS':
-      return { step: 'analyzing', imageDataUrl: action.imageDataUrl };
+      return { step: 'analyzing', imageFile: action.imageFile };
     case 'ANALYSIS_COMPLETE':
       return {
         step: 'confirming-vehicle',
-        imageDataUrl: action.imageDataUrl,
+        imageFile: action.imageFile,
         analysis: action.analysis,
       };
     case 'VEHICLE_CONFIRMED':
       if (state.step !== 'confirming-vehicle') return state;
       return {
         step: 'generating-diagnosis',
-        imageDataUrl: state.imageDataUrl,
+        imageFile: state.imageFile,
         vehicle: action.vehicle,
         warningLight: state.analysis.warningLight,
       };

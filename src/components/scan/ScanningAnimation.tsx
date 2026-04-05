@@ -1,18 +1,26 @@
+import { useEffect, useMemo } from 'react';
+
 interface ScanningAnimationProps {
-  imageDataUrl: string;
+  imageFile: File;
   statusText?: string;
 }
 
 export function ScanningAnimation({
-  imageDataUrl,
+  imageFile,
   statusText = 'Analyzing your dashboard...',
 }: ScanningAnimationProps) {
+  const objectUrl = useMemo(() => URL.createObjectURL(imageFile), [imageFile]);
+
+  useEffect(() => {
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [objectUrl]);
+
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="relative aspect-[4/3] bg-muted rounded-lg overflow-hidden">
         {/* Captured image */}
         <img
-          src={imageDataUrl}
+          src={objectUrl}
           alt="Captured dashboard"
           className="absolute inset-0 w-full h-full object-cover"
         />

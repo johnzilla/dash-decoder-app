@@ -7,7 +7,7 @@ export interface UseCameraReturn {
   isActive: boolean;
   startCamera: () => Promise<void>;
   stopCamera: () => void;
-  capturePhoto: () => string | null;
+  capturePhoto: () => File | null;
 }
 
 export function useCamera(): UseCameraReturn {
@@ -75,7 +75,7 @@ export function useCamera(): UseCameraReturn {
     setIsActive(false);
   }, [stream]);
 
-  const capturePhoto = useCallback((): string | null => {
+  const capturePhoto = useCallback((): File | null => {
     if (!videoRef.current || !isActive) return null;
 
     const video = videoRef.current;
@@ -87,7 +87,17 @@ export function useCamera(): UseCameraReturn {
     if (!ctx) return null;
 
     ctx.drawImage(video, 0, 0);
-    return canvas.toDataURL('image/jpeg', 0.95);
+
+    // Convert canvas to blob synchronously via toDataURL, then wrap as File
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.95);
+    const byteString = atob(dataUrl.split(',')[1] ?? '');
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([ab], { type: 'image/jpeg' });
+    return new File([blob], 'capture.jpg', { type: 'image/jpeg' });
   }, [isActive]);
 
   // Cleanup on unmount

@@ -27,7 +27,7 @@ export const DiagnosisRequestSchema = z.object({
     model: z.string(),
     year: z.number(),
   }),
-  imageDataUrl: z.string(),
+  sessionId: z.number().optional(),
 });
 export type DiagnosisRequest = z.infer<typeof DiagnosisRequestSchema>;
 
@@ -35,9 +35,9 @@ export type DiagnosisRequest = z.infer<typeof DiagnosisRequestSchema>;
 export type ScanFlowState =
   | { step: 'idle' }
   | { step: 'capturing' }
-  | { step: 'validating'; imageDataUrl: string }
-  | { step: 'analyzing'; imageDataUrl: string }
-  | { step: 'confirming-vehicle'; imageDataUrl: string; analysis: VisionAnalysisResult }
-  | { step: 'generating-diagnosis'; imageDataUrl: string; vehicle: { make: string; model: string; year: number }; warningLight: { name: string; code: string | null; confidence: number } }
+  | { step: 'validating'; imageFile: File }
+  | { step: 'analyzing'; imageFile: File }
+  | { step: 'confirming-vehicle'; imageFile: File; analysis: VisionAnalysisResult }
+  | { step: 'generating-diagnosis'; imageFile: File; vehicle: { make: string; model: string; year: number }; warningLight: { name: string; code: string | null; confidence: number } }
   | { step: 'complete'; diagnosis: import('./diagnosis.ts').Diagnosis }
   | { step: 'error'; message: string; canRetry: boolean };

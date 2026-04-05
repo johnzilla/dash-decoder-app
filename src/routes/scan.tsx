@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { v4 as uuidv4 } from 'uuid';
 import { useScan } from '@/context/ScanContext';
@@ -12,6 +12,14 @@ import { useVehicleStorage } from '@/hooks/useVehicleStorage';
 import { Button } from '@/components/ui/button';
 import type { Vehicle, ImageQualityResult, Diagnosis } from '@/types';
 
+/**
+ * Create an object URL from a File for display in <img> elements.
+ * The caller is responsible for revoking it when no longer needed.
+ */
+function fileToObjectUrl(file: File): string {
+  return URL.createObjectURL(file);
+}
+
 export default function Scan() {
   const navigate = useNavigate();
   const { state, dispatch, reset } = useScan();
@@ -23,30 +31,31 @@ export default function Scan() {
     return () => reset();
   }, [dispatch, reset]);
 
-  // Handle photo capture
-  const handleCapture = useCallback(async (imageDataUrl: string) => {
-    dispatch({ type: 'CAPTURE_COMPLETE', imageDataUrl });
+  // Handle photo capture — receives File from camera
+  const handleCapture = useCallback(async (imageFile: File) => {
+    dispatch({ type: 'CAPTURE_COMPLETE', imageFile });
 
-    // Validate image quality
+    // Validate image quality using a data URL (imageQuality validator needs URL)
     let validationResult: ImageQualityResult;
     try {
-      validationResult = await validateImageQuality(imageDataUrl);
+      const dataUrl = await fileToDataUrl(imageFile);
+      validationResult = await validateImageQuality(dataUrl);
     } catch (error) {
       dispatch({ type: 'ERROR', message: 'Failed to validate image', canRetry: true });
       return;
     }
 
     if (!validationResult.isValid) {
-      dispatch({ type: 'VALIDATION_FAILED', imageDataUrl });
+      dispatch({ type: 'VALIDATION_FAILED', imageFile });
       return;
     }
 
     // Start AI analysis
-    dispatch({ type: 'START_ANALYSIS', imageDataUrl });
+    dispatch({ type: 'START_ANALYSIS', imageFile });
 
     try {
-      const analysis = await analyzeWarningLight(imageDataUrl);
-      dispatch({ type: 'ANALYSIS_COMPLETE', imageDataUrl, analysis });
+      const analysis = await analyzeWarningLight(imageFile);
+      dispatch({ type: 'ANALYSIS_COMPLETE', imageFile, analysis });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Analysis failed';
       dispatch({ type: 'ERROR', message, canRetry: true });
@@ -69,6 +78,9 @@ export default function Scan() {
         vehicle
       );
 
+      // Use an object URL from the captured file for display
+      const imageDataUrl = fileToObjectUrl(state.imageFile);
+
       const diagnosis: Diagnosis = {
         id: uuidv4(),
         createdAt: new Date().toISOString(),
@@ -78,7 +90,7 @@ export default function Scan() {
         explanation: diagnosisData.explanation,
         safetyGuidance: diagnosisData.safetyGuidance,
         fixSteps: diagnosisData.fixSteps,
-        imageDataUrl: state.imageDataUrl,
+        imageDataUrl,
       };
 
       dispatch({ type: 'DIAGNOSIS_COMPLETE', diagnosis });
@@ -102,15 +114,14 @@ export default function Scan() {
         return <CameraPreview onCapture={handleCapture} />;
 
       case 'validating':
-        // Show validation feedback - need to re-validate for display
         return (
           <ValidationStep
-            imageDataUrl={state.imageDataUrl}
+            imageFile={state.imageFile}
             onRetake={handleRetake}
             onSubmitAnyway={() => {
-              dispatch({ type: 'START_ANALYSIS', imageDataUrl: state.imageDataUrl });
-              analyzeWarningLight(state.imageDataUrl).then((analysis) => {
-                dispatch({ type: 'ANALYSIS_COMPLETE', imageDataUrl: state.imageDataUrl, analysis });
+              dispatch({ type: 'START_ANALYSIS', imageFile: state.imageFile });
+              analyzeWarningLight(state.imageFile).then((analysis) => {
+                dispatch({ type: 'ANALYSIS_COMPLETE', imageFile: state.imageFile, analysis });
               }).catch((error) => {
                 const message = error instanceof Error ? error.message : 'Analysis failed';
                 dispatch({ type: 'ERROR', message, canRetry: true });
@@ -122,7 +133,7 @@ export default function Scan() {
       case 'analyzing':
         return (
           <ScanningAnimation
-            imageDataUrl={state.imageDataUrl}
+            imageFile={state.imageFile}
             statusText="Analyzing your dashboard..."
           />
         );
@@ -132,11 +143,7 @@ export default function Scan() {
           <div className="w-full max-w-md mx-auto px-4">
             {/* Show captured image */}
             <div className="mb-4 aspect-video bg-muted rounded-lg overflow-hidden">
-              <img
-                src={state.imageDataUrl}
-                alt="Captured dashboard"
-                className="w-full h-full object-cover"
-              />
+              <ImageFromFile file={state.imageFile} alt="Captured dashboard" />
             </div>
 
             {/* Show identified warning light */}
@@ -162,7 +169,7 @@ export default function Scan() {
       case 'generating-diagnosis':
         return (
           <ScanningAnimation
-            imageDataUrl={state.imageDataUrl}
+            imageFile={state.imageFile}
             statusText="Generating diagnosis..."
           />
         );
@@ -211,21 +218,56 @@ export default function Scan() {
   );
 }
 
+/**
+ * Helper: convert a File to a data URL for imageQuality validation.
+ * imageQuality.ts uses an <img> element which requires a URL string.
+ */
+function fileToDataUrl(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(new Error('Failed to read image file'));
+    reader.readAsDataURL(file);
+  });
+}
+
+/**
+ * Helper component: renders an <img> from a File using an object URL.
+ * Revokes the object URL on cleanup to avoid memory leaks.
+ */
+function ImageFromFile({ file, alt }: { file: File; alt: string }) {
+  const objectUrl = useMemo(() => URL.createObjectURL(file), [file]);
+
+  useEffect(() => {
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [objectUrl]);
+
+  return (
+    <img
+      src={objectUrl}
+      alt={alt}
+      className="w-full h-full object-cover"
+    />
+  );
+}
+
 // Helper component for validation step
 function ValidationStep({
-  imageDataUrl,
+  imageFile,
   onRetake,
   onSubmitAnyway,
 }: {
-  imageDataUrl: string;
+  imageFile: File;
   onRetake: () => void;
   onSubmitAnyway: () => void;
 }) {
   const [result, setResult] = useState<ImageQualityResult | null>(null);
 
   useEffect(() => {
-    validateImageQuality(imageDataUrl).then(setResult);
-  }, [imageDataUrl]);
+    fileToDataUrl(imageFile)
+      .then((dataUrl) => validateImageQuality(dataUrl))
+      .then(setResult);
+  }, [imageFile]);
 
   if (!result) return null;
 
@@ -237,7 +279,7 @@ function ValidationStep({
 
   return (
     <ImageQualityFeedback
-      imageDataUrl={imageDataUrl}
+      imageFile={imageFile}
       result={result}
       onRetake={onRetake}
       onSubmitAnyway={onSubmitAnyway}

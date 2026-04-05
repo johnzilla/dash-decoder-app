@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { CaptureButton } from './CaptureButton';
 
 interface CameraPreviewProps {
-  onCapture: (imageDataUrl: string) => void;
+  onCapture: (imageFile: File) => void;
   onError?: (error: string) => void;
 }
 
