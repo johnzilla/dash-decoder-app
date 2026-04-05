@@ -34,12 +34,12 @@ A car owner can photograph a dashboard warning light and immediately understand 
 - ✓ Express backend proxies OpenAI calls (API key server-side) — Phase 4
 - ✓ Images uploaded to DO Spaces (not base64 in POST body) — Phase 4
 - ✓ AI call logging captures model, tokens, latency, success/failure — Phase 4
-- [ ] User sees feedback card after diagnosis with 3 structured questions + open text
-- [ ] Funnel step timestamps track camera→capture→diagnosis→feedback progression
-- [ ] Device/browser data captured per session
-- [ ] Plausible Analytics tracks traffic sources and page views
-- [ ] Privacy notice displayed for data collection disclosure
-- [ ] A/B variant tracking via URL parameter (?v=diagnosis or ?v=triage)
+- ✓ User sees feedback card after diagnosis with 3 structured questions + open text — Phase 5
+- ✓ Funnel step timestamps track camera→capture→diagnosis→feedback progression — Phase 5
+- ✓ Device/browser data captured per session — Phase 5
+- ✓ Plausible Analytics tracks traffic sources and page views — Phase 5
+- ✓ Privacy notice displayed for data collection disclosure — Phase 5
+- ✓ A/B variant tracking via URL parameter (?v=diagnosis or ?v=triage) — Phase 5
 - [ ] Vitest integration tests cover backend endpoints
 
 ### Out of Scope
@@ -109,4 +109,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-05 after Phase 4 complete*
+*Last updated: 2026-04-05 after Phase 5 complete*
