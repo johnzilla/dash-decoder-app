@@ -35,15 +35,7 @@ export default defineConfig({
         ]
       },
       workbox: {
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/api\.openai\.com\/.*/i,
-            handler: 'NetworkOnly',
-            options: {
-              cacheName: 'openai-api'
-            }
-          }
-        ]
+        // No runtime caching for external APIs — all AI calls go through Express proxy
       }
     })
   ],
@@ -51,5 +43,13 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src')
     }
-  }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      },
+    },
+  },
 })

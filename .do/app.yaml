@@ -3,10 +3,53 @@ region: nyc
 alerts:
   - rule: DEPLOYMENT_FAILED
   - rule: DOMAIN_FAILED
-envs:
-  - key: VITE_OPENAI_API_KEY
-    scope: BUILD_TIME
-    type: SECRET
+
+ingress:
+  rules:
+    - match:
+        path:
+          prefix: /api
+      component:
+        name: api-server
+        preserve_path_prefix: true
+    - match:
+        path:
+          prefix: /
+      component:
+        name: dash-decoder-app
+
+services:
+  - name: api-server
+    github:
+      repo: johnzilla/dash-decoder-app
+      branch: main
+      deploy_on_push: true
+    environment_slug: node-js
+    http_port: 8080
+    run_command: npx drizzle-kit push && node dist/server/server/index.js
+    build_command: npm install && npm run build:server
+    instance_size_slug: apps-s-1vcpu-1gb
+    instance_count: 1
+    envs:
+      - key: DATABASE_URL
+        value: ${postgres.DATABASE_URL}
+        scope: RUN_AND_BUILD_TIME
+      - key: OPENAI_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: SPACES_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: SPACES_SECRET
+        scope: RUN_TIME
+        type: SECRET
+      - key: SPACES_BUCKET
+        value: dashdecoder-images
+        scope: RUN_TIME
+      - key: SPACES_REGION
+        value: nyc3
+        scope: RUN_TIME
+
 static_sites:
   - name: dash-decoder-app
     github:
@@ -15,3 +58,9 @@ static_sites:
       deploy_on_push: true
     build_command: npm install && npm run build
     output_dir: dist
+    envs: []
+
+databases:
+  - name: postgres
+    engine: PG
+    production: true
