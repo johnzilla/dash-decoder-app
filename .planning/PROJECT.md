@@ -8,25 +8,39 @@ A progressive web app that lets car owners snap a photo of any dashboard warning
 
 A car owner can photograph a dashboard warning light and immediately understand what's wrong, how urgent it is, and what to do next — no mechanic visit required for the diagnosis.
 
+## Current Milestone: v1.1 Value Proposition Experiment
+
+**Goal:** Validate demand for DashDecoder with a $250 Google Ads A/B test before investing in auth/payments.
+
+**Target features:**
+- Express backend with DO Postgres and DO Spaces
+- OpenAI API proxy with AI call logging
+- Feedback card with funnel analytics
+- A/B ad experiment (diagnosis vs urgency framing)
+
 ## Requirements
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ User can upload or capture a photo of a dashboard warning light — Phase 1
+- ✓ AI analyzes the image and identifies the warning light/error code — Phase 1
+- ✓ AI guesses vehicle make/model/year from dashboard appearance; user confirms or corrects — Phase 1
+- ✓ User sees plain English diagnosis: light name, error code, severity level, what it means — Phase 1
+- ✓ User sees recommended fix steps and what to tell a mechanic — Phase 1
+- ✓ App works as an installable PWA on mobile and desktop — Phase 1
 
 ### Active
 
-- [ ] User can upload or capture a photo of a dashboard warning light
-- [ ] AI analyzes the image and identifies the warning light/error code
-- [ ] AI guesses vehicle make/model/year from dashboard appearance; user confirms or corrects
-- [ ] User sees plain English diagnosis: light name, error code, severity level, what it means
-- [ ] User sees recommended fix steps and what to tell a mechanic
-- [ ] User sees affiliate links to buy relevant parts and supplies
-- [ ] User can try 1-2 free scans without an account
-- [ ] User can create an account and log in (Supabase auth)
-- [ ] User can view their scan history
-- [ ] User can subscribe via Stripe ($4.99/month, $2.50/month for waitlist members)
-- [ ] App works as an installable PWA on mobile and desktop
+- [ ] Express backend proxies OpenAI calls (API key server-side)
+- [ ] Images uploaded to DO Spaces (not base64 in POST body)
+- [ ] AI call logging captures model, tokens, latency, success/failure
+- [ ] User sees feedback card after diagnosis with 3 structured questions + open text
+- [ ] Funnel step timestamps track camera→capture→diagnosis→feedback progression
+- [ ] Device/browser data captured per session
+- [ ] Plausible Analytics tracks traffic sources and page views
+- [ ] Privacy notice displayed for data collection disclosure
+- [ ] A/B variant tracking via URL parameter (?v=diagnosis or ?v=triage)
+- [ ] Vitest integration tests cover backend endpoints
 
 ### Out of Scope
 
@@ -35,34 +49,63 @@ A car owner can photograph a dashboard warning light and immediately understand 
 - Real-time video analysis — single photo upload only
 - Mechanic marketplace / booking — just diagnosis and parts links
 - Multi-language support — English only for v1
+- User accounts / authentication — deferred until experiment validates demand
+- Scan history — deferred until experiment validates demand
+- Stripe payments / subscriptions — deferred until experiment validates demand
+- Affiliate links — deferred until experiment validates demand
+- Custom admin dashboard — use psql/Metabase for experiment data
 
 ## Context
 
 - Landing page lives in separate repo (`dash-decoder`) built with bolt.new
-- Supabase instance already exists with waitlist data (shared between landing page and app)
-- Waitlist has early signups expecting Q1 2026 launch
-- Landing page promises $2.50/month lifetime discount for waitlist members
-- Target users are everyday car owners, not mechanics — plain language is critical
-- All vehicles 1996+ (OBD-II standard) are in scope
-- Vision AI API to be determined through research (Claude Vision, OpenAI Vision, etc.)
+- Waitlist signups are founder's own tests — zero external users
+- Phase 1 complete: camera capture, image validation, GPT-4o Vision, vehicle confirmation, diagnosis display, PWA
+- Deployed on DigitalOcean App Platform as static site at dashdecoder-app-tujs9.ondigitalocean.app
+- /office-hours design doc + CEO review + eng review all approved (at ~/.gstack/projects/)
+- Pivoting from original Phase 2/3 (Supabase auth + Stripe) to validation experiment first
+- Google Ads preferred over Facebook (search intent matches urgent use case, avoids Meta in-app browser camera issues)
+- Triage ad framing reworded from "safe to keep driving?" to "know if it's urgent" (avoids safety claim liability)
+- Pre-experiment: must test AI accuracy on 10-15 real photos before ad spend
 
 ## Constraints
 
-- **Platform**: PWA — must work well on mobile browsers with camera access
-- **Backend**: Supabase — shared instance with existing landing page
-- **Payments**: Stripe — subscription model with waitlist discount tier
-- **AI**: Needs a vision API capable of identifying dashboard warning lights from photos
+- **Platform**: PWA on DO App Platform — static site + Express web service
+- **Backend**: DigitalOcean managed Postgres (replacing Supabase for single-provider infrastructure)
+- **Storage**: DO Spaces for image uploads (S3-compatible)
+- **AI**: GPT-4o Vision via server-side proxy (key never in frontend bundle)
+- **Budget**: $250 for Google Ads experiment, ~$20/month infrastructure (Postgres + Spaces + container)
 - **Audience**: Non-technical car owners — all copy and UX must be jargon-free
+- **Timeline**: 1-week experiment after build + ad approval
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| PWA over native mobile | No mobile dev experience, camera access works via browser, simplest path | — Pending |
-| Shared Supabase with landing page | Waitlist users convert directly, single auth system | — Pending |
-| Free scans without account | Lower barrier to try, convert after value demonstrated | — Pending |
-| AI guesses vehicle, user confirms | Less friction than making user enter vehicle info upfront | — Pending |
-| Affiliate links in results | Second revenue stream alongside subscription | — Pending |
+| PWA over native mobile | Camera access works via browser, simplest path | ✓ Good |
+| AI guesses vehicle, user confirms | Less friction than upfront vehicle entry | ✓ Good |
+| Validate before auth/payments | Zero external users, need demand signal first | — Pending |
+| DO Postgres over Supabase | Single-provider infrastructure, user preference | — Pending |
+| DO Spaces for image storage | Server-side upload, not base64 in POST body | — Pending |
+| Google Ads over Facebook | Search intent matches urgent use case, real browser | — Pending |
+| Reframe triage as "urgency" | Avoids safety claim liability in ad copy | — Pending |
+| Express on App Platform | Reusable for Phase 2 if experiment succeeds | — Pending |
+
+## Evolution
+
+This document evolves at phase transitions and milestone boundaries.
+
+**After each phase transition** (via `/gsd-transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
+**After each milestone** (via `/gsd-complete-milestone`):
+1. Full review of all sections
+2. Core Value check — still the right priority?
+3. Audit Out of Scope — reasons still valid?
+4. Update Context with current state
 
 ---
-*Last updated: 2026-02-04 after initialization*
+*Last updated: 2026-04-05 after milestone v1.1 started*

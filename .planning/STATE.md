@@ -2,19 +2,19 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-02-04)
+See: .planning/PROJECT.md (updated 2026-04-05)
 
 **Core value:** A car owner can photograph a dashboard warning light and immediately understand what's wrong, how urgent it is, and what to do next — no mechanic visit required for the diagnosis.
-**Current focus:** Foundation & Core Flow
+**Current focus:** Value Proposition Experiment (v1.1)
 
 ## Current Position
 
-Phase: 1 of 3 (Foundation & Core Flow)
-Plan: 9 of 9 in current phase
-Status: Complete
-Last activity: 2026-04-04 — Completed 01-09-PLAN.md (Final Verification & PWA Testing)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-05 — Milestone v1.1 started
 
-Progress: [██████████] 100%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
@@ -106,6 +106,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-04
-Stopped at: Phase 1 complete — all 9 plans executed
+Last session: 2026-04-05
+Stopped at: Milestone v1.1 initialization — defining requirements
 Resume file: None
