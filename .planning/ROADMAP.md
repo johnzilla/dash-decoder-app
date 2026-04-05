@@ -77,11 +77,13 @@ Plans:
   4. Plausible Analytics script is loaded and records page views and traffic sources (UTM params visible in Plausible dashboard)
   5. A/B variant from ?v=diagnosis or ?v=triage is stored on the session; sessions without the param are tagged "organic"
   6. Privacy notice is visible on the app disclosing AI processing and anonymous data collection
-**Plans**: TBD
+**Plans**: 3 plans
 **UI hint**: yes
 
 Plans:
-- [ ] TBD (will be defined during phase planning)
+- [ ] 05-01-PLAN.md — Feedback card UI and POST /api/sessions/:id/feedback endpoint
+- [ ] 05-02-PLAN.md — Funnel timestamps, device data capture, A/B variant tracking
+- [ ] 05-03-PLAN.md — Plausible Analytics script and privacy notice banner
 
 #### Phase 6: Hardening & Tests
 **Goal**: Backend endpoints are protected against abuse with rate limiting and all API behavior is verified by automated integration tests
@@ -114,9 +116,9 @@ v1.1 phases execute in numeric order: 4 → 5 → 6
 | 2. Accounts & History | v1.0 | 0/TBD | Deferred | - |
 | 3. Subscription & Monetization | v1.0 | 0/TBD | Deferred | - |
 | 4. Backend Infrastructure | v1.1 | 0/3 | Planning complete | - |
-| 5. Frontend Integration & Analytics | v1.1 | 0/TBD | Not started | - |
+| 5. Frontend Integration & Analytics | v1.1 | 0/3 | Planning complete | - |
 | 6. Hardening & Tests | v1.1 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-02-04*
-*Last updated: 2026-04-05 — Phase 4 plans created (3 plans, 3 waves)*
+*Last updated: 2026-04-05 — Phase 5 plans created (3 plans, 1 wave)*
