@@ -62,9 +62,9 @@ Plans:
 **UI hint**: no
 
 Plans:
-- [ ] 04-01-PLAN.md — Server scaffold, Drizzle schema, health endpoint, Vitest setup
-- [ ] 04-02-PLAN.md — Session routes, image upload pipeline, OpenAI proxy with AI call logging
-- [ ] 04-03-PLAN.md — Frontend migration to Express proxy, app.yaml update, schema push
+- [x] 04-01-PLAN.md — Server scaffold, Drizzle schema, health endpoint, Vitest setup
+- [x] 04-02-PLAN.md — Session routes, image upload pipeline, OpenAI proxy with AI call logging
+- [x] 04-03-PLAN.md — Frontend migration to Express proxy, app.yaml update, schema push
 
 #### Phase 5: Frontend Integration & Analytics
 **Goal**: Users interact with the feedback card and A/B variant tracking after diagnosis; all funnel events and device data are captured; Plausible tracks traffic; privacy notice is displayed
