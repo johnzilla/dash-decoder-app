@@ -1,0 +1,14 @@
+name: dash-decoder-app
+region: nyc
+static_sites:
+  - name: dash-decoder-app
+    github:
+      repo: johnzilla/dash-decoder-app
+      branch: main
+      deploy_on_push: true
+    build_command: npm install && npm run build
+    output_dir: dist
+    envs:
+      - key: VITE_OPENAI_API_KEY
+        scope: BUILD_TIME
+        type: SECRET
