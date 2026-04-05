@@ -101,28 +101,28 @@
 | DIAG-05 | Phase 1 | Complete |
 | PWA-01 | Phase 1 | Complete |
 | PWA-02 | Phase 1 | Complete |
-| INFRA-01 | TBD | Pending |
-| INFRA-02 | TBD | Pending |
-| INFRA-03 | TBD | Pending |
-| INFRA-04 | TBD | Pending |
-| INFRA-05 | TBD | Pending |
-| ANLYT-01 | TBD | Pending |
-| ANLYT-02 | TBD | Pending |
-| ANLYT-03 | TBD | Pending |
-| ANLYT-04 | TBD | Pending |
-| ANLYT-05 | TBD | Pending |
-| EXPT-01 | TBD | Pending |
-| EXPT-02 | TBD | Pending |
-| EXPT-03 | TBD | Pending |
-| EXPT-04 | TBD | Pending |
-| EXPT-05 | TBD | Pending |
+| INFRA-01 | Phase 4 | Pending |
+| INFRA-02 | Phase 4 | Pending |
+| INFRA-03 | Phase 4 | Pending |
+| INFRA-04 | Phase 4 | Pending |
+| INFRA-05 | Phase 4 | Pending |
+| ANLYT-01 | Phase 5 | Pending |
+| ANLYT-02 | Phase 5 | Pending |
+| ANLYT-03 | Phase 5 | Pending |
+| ANLYT-04 | Phase 5 | Pending |
+| ANLYT-05 | Phase 5 | Pending |
+| EXPT-01 | Phase 5 | Pending |
+| EXPT-02 | Phase 5 | Pending |
+| EXPT-03 | Phase 5 | Pending |
+| EXPT-04 | Phase 6 | Pending |
+| EXPT-05 | Phase 6 | Pending |
 
 **Coverage:**
 - Validated (v1.0): 12 total
 - v1.1 requirements: 15 total
-- Mapped to phases: 12 (v1.0)
-- Unmapped: 15 (v1.1 — awaiting roadmap)
+- Mapped to phases: 27 (all v1.0 + v1.1)
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-04*
-*Last updated: 2026-04-05 after milestone v1.1 started*
+*Last updated: 2026-04-05 — v1.1 traceability complete (Phases 4-6)*

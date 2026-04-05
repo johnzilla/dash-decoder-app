@@ -5,33 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-04-05)
 
 **Core value:** A car owner can photograph a dashboard warning light and immediately understand what's wrong, how urgent it is, and what to do next — no mechanic visit required for the diagnosis.
-**Current focus:** Value Proposition Experiment (v1.1)
+**Current focus:** v1.1 Value Proposition Experiment — Phase 4 (Backend Infrastructure)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-04-05 — Milestone v1.1 started
+Phase: 4 of 6 (Backend Infrastructure)
+Plan: 0 of TBD in current phase
+Status: Ready to plan
+Last activity: 2026-04-05 — v1.1 roadmap created (Phases 4-6)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 17% (Phase 1 complete; Phases 4-6 not started)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
+- Total plans completed: 9
 - Average duration: 3 min
-- Total execution time: 0.3 hours
+- Total execution time: 0.45 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| Phase 1 | 8 | 20 min | 3 min |
+| Phase 1 | 9 | 27 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-04 (2min), 01-05 (2min), 01-06 (3min), 01-07 (2min), 01-08 (2min)
-- Trend: Consistently fast (simple foundation tasks)
+- Last 5 plans: 01-05 (2min), 01-06 (3min), 01-07 (2min), 01-08 (2min), 01-09 (3min)
+- Trend: Consistently fast
 
 *Updated after each plan completion*
 
@@ -42,52 +42,12 @@ Progress: [░░░░░░░░░░] 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- PWA over native mobile: Camera access works via browser, simplest path for solo developer
-- Shared Supabase with landing page: Waitlist users convert directly, single auth system
-- Free scans without account: Lower barrier to try, convert after value demonstrated
-- AI guesses vehicle, user confirms: Less friction than making user enter vehicle info upfront
-- Affiliate links in results: Second revenue stream alongside subscription
-
-**From Plan 01-01 (Project Foundation):**
-- React 18 instead of React 19: More stable ecosystem, no impact on MVP requirements
-- Tailwind v3.4 with PostCSS: Stable production-ready version vs v4 alpha
-- shadcn/ui neutral theme: CSS variables enable light/dark mode switching
-- mkcert for HTTPS localhost: Required for camera API testing in development
-
-**From Plan 01-03 (Camera Capture):**
-- Prefer rear camera (facingMode: environment) for mobile dashboard photos
-- High resolution capture (1920x1080 ideal) for better image quality
-- JPEG at 95% quality balances file size and image detail
-- Auto-start camera on mount for better UX (no manual start button)
-
-**From Plan 01-04 (Image Quality Validation):**
-- Lenient thresholds per research (blur < 80, brightness 30-250) to prevent false positives
-- Export thresholds for potential tuning based on real user data during beta
-- Optional submit anyway button for edge cases where validation may be overly strict
-
-**From Plan 01-05 (Vision API Integration):**
-- GPT-4o Vision (not GPT-4 Vision) for better warning light recognition
-- Direct fetch() instead of OpenAI SDK to reduce bundle size by ~200KB
-- Structured prompts with regex extraction for flexible JSON parsing
-- Temperature 0.3 for consistent structured output from Vision API
-
-**From Plan 01-06 (Vehicle Confirmation Flow):**
-- 90-day expiry for stored vehicles balances UX convenience with accuracy
-- Inline search reveal on 'No' button avoids navigation disruption
-- 26 popular makes as datalist suggestions cover 95%+ of US market
-- Memoized storedVehicle in hook prevents repeated localStorage reads
-
-**From Plan 01-07 (Diagnosis Display Components):**
-- Traffic light style for severity (big colored circles with labels) more intuitive for non-technical users
-- Numbered recipe format for DIY fix steps easier to follow than paragraphs
-- Single scroll layout simpler than tabs or multi-page for mobile users
-- Subtle footer disclaimer present but not alarming
-
-**From Plan 01-08 (Complete Scan Flow Integration):**
-- Context API reducer pattern for scan flow state management
-- Lazy loading routes for better performance and code splitting
-- BrowserRouter (not HashRouter) for clean URLs
-- uuid for diagnosis IDs instead of timestamp-based IDs
+- v1.1 arch: Express in /server with separate tsconfig; DO App Platform static site + web service components
+- v1.1 arch: DB schema — scan_sessions, feedback, ai_calls tables
+- v1.1 arch: API contract — POST/PATCH /api/sessions, POST /api/sessions/:id/feedback, POST /api/analyze
+- v1.1 arch: Rate limiting — 10/min global, 3/5min on /api/analyze
+- v1.1 arch: Vitest for integration tests
+- Phases 2-3 deferred: validating demand with $250 Google Ads experiment before building auth/payments
 
 ### Pending Todos
 
@@ -95,17 +55,12 @@ None yet.
 
 ### Blockers/Concerns
 
-**Phase 1:**
-- Vision API accuracy unknown until real testing with 20+ vehicles (research suggests 75%+ threshold required for viable product)
-- iOS Safari camera permissions may have quirks not documented in research (requires testing during implementation)
-- Legal review needed for liability disclaimer language before launch (budget $2-5K for attorney review)
-
-**Phase 3:**
-- Stripe webhook edge cases (failed payments, trial cancellations, refunds) may need deeper research during planning
-- Amazon Associates API migration deadline April 30, 2026 — must use Creators API (OAuth 2.0) not legacy PA-API
+**Phase 4+:**
+- Pre-experiment accuracy gate: must test AI on 10-15 real photos before ad spend
+- Amazon Associates API migration deadline April 30, 2026 (v2 concern, not v1.1)
 
 ## Session Continuity
 
 Last session: 2026-04-05
-Stopped at: Milestone v1.1 initialization — defining requirements
+Stopped at: v1.1 roadmap created — ready to plan Phase 4
 Resume file: None
