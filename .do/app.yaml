@@ -1,5 +1,12 @@
-name: dash-decoder-app
+name: dashdecoder-app
 region: nyc
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
+envs:
+  - key: VITE_OPENAI_API_KEY
+    scope: BUILD_TIME
+    type: SECRET
 static_sites:
   - name: dash-decoder-app
     github:
@@ -8,7 +15,3 @@ static_sites:
       deploy_on_push: true
     build_command: npm install && npm run build
     output_dir: dist
-    envs:
-      - key: VITE_OPENAI_API_KEY
-        scope: BUILD_TIME
-        type: SECRET
