@@ -626,22 +626,11 @@ describe('GET /health', () => {
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **DO Spaces bucket already provisioned?**
-   - What we know: App is deployed on DO App Platform (nyc region per app.yaml)
-   - What's unclear: Whether a DO Spaces bucket `dashdecoder-images` already exists or must be created
-   - Recommendation: Wave 0 plan task should include "create DO Spaces bucket and generate access key via DO console"
-
-2. **DO managed Postgres already provisioned?**
-   - What we know: Current app.yaml has no databases section
-   - What's unclear: Whether the DB must be created as part of this phase or already exists
-   - Recommendation: Plan task to add the database component to app.yaml and trigger a deploy; DO App Platform creates the cluster automatically from spec
-
-3. **Express 5 vs Express 4 for this team**
-   - What we know: Express 5 is now stable (released Nov 2024); async error propagation is improved
-   - What's unclear: Whether any existing code patterns (used in Phase 5+) assume Express 4 behavior
-   - Recommendation: Use Express 5 — it is the current stable release and the project starts fresh in `/server/`
+1. **DO Spaces bucket already provisioned?** — RESOLVED: Plan 04-02 user_setup includes explicit steps to create bucket and generate access keys via DO console
+2. **DO managed Postgres already provisioned?** — RESOLVED: Plan 04-03 adds databases section to app.yaml; DO App Platform creates cluster automatically on deploy
+3. **Express 5 vs Express 4 for this team** — RESOLVED: Express 5.2.1 chosen (current stable, project starts fresh in /server/)
 
 ---
 
