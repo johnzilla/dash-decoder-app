@@ -58,11 +58,13 @@ Plans:
   3. An uploaded image is stored in DO Spaces and the returned URL is what gets sent to OpenAI (no base64 in request body)
   4. OpenAI API key is absent from the frontend bundle; all AI calls route through the Express proxy
   5. Every AI call generates a log row in Postgres capturing model, token counts, latency, and success/failure status
-**Plans**: TBD
+**Plans**: 3 plans
 **UI hint**: no
 
 Plans:
-- [ ] TBD (will be defined during phase planning)
+- [ ] 04-01-PLAN.md — Server scaffold, Drizzle schema, health endpoint, Vitest setup
+- [ ] 04-02-PLAN.md — Session routes, image upload pipeline, OpenAI proxy with AI call logging
+- [ ] 04-03-PLAN.md — Frontend migration to Express proxy, app.yaml update, schema push
 
 #### Phase 5: Frontend Integration & Analytics
 **Goal**: Users interact with the feedback card and A/B variant tracking after diagnosis; all funnel events and device data are captured; Plausible tracks traffic; privacy notice is displayed
@@ -111,10 +113,10 @@ v1.1 phases execute in numeric order: 4 → 5 → 6
 | 1. Foundation & Core Flow | v1.0 | 9/9 | Complete | 2026-04-04 |
 | 2. Accounts & History | v1.0 | 0/TBD | Deferred | - |
 | 3. Subscription & Monetization | v1.0 | 0/TBD | Deferred | - |
-| 4. Backend Infrastructure | v1.1 | 0/TBD | Not started | - |
+| 4. Backend Infrastructure | v1.1 | 0/3 | Planning complete | - |
 | 5. Frontend Integration & Analytics | v1.1 | 0/TBD | Not started | - |
 | 6. Hardening & Tests | v1.1 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-02-04*
-*Last updated: 2026-04-05 — v1.1 roadmap added (Phases 4-6)*
+*Last updated: 2026-04-05 — Phase 4 plans created (3 plans, 3 waves)*
