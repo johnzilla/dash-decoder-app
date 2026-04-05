@@ -31,9 +31,9 @@ A car owner can photograph a dashboard warning light and immediately understand 
 
 ### Active
 
-- [ ] Express backend proxies OpenAI calls (API key server-side)
-- [ ] Images uploaded to DO Spaces (not base64 in POST body)
-- [ ] AI call logging captures model, tokens, latency, success/failure
+- ✓ Express backend proxies OpenAI calls (API key server-side) — Phase 4
+- ✓ Images uploaded to DO Spaces (not base64 in POST body) — Phase 4
+- ✓ AI call logging captures model, tokens, latency, success/failure — Phase 4
 - [ ] User sees feedback card after diagnosis with 3 structured questions + open text
 - [ ] Funnel step timestamps track camera→capture→diagnosis→feedback progression
 - [ ] Device/browser data captured per session
@@ -60,7 +60,8 @@ A car owner can photograph a dashboard warning light and immediately understand 
 - Landing page lives in separate repo (`dash-decoder`) built with bolt.new
 - Waitlist signups are founder's own tests — zero external users
 - Phase 1 complete: camera capture, image validation, GPT-4o Vision, vehicle confirmation, diagnosis display, PWA
-- Deployed on DigitalOcean App Platform as static site at dashdecoder-app-tujs9.ondigitalocean.app
+- Phase 4 complete: Express backend, DO Spaces image upload, OpenAI server-side proxy, AI call logging
+- Deployed on DigitalOcean App Platform as static site + Express web service at dashdecoder-app-tujs9.ondigitalocean.app
 - /office-hours design doc + CEO review + eng review all approved (at ~/.gstack/projects/)
 - Pivoting from original Phase 2/3 (Supabase auth + Stripe) to validation experiment first
 - Google Ads preferred over Facebook (search intent matches urgent use case, avoids Meta in-app browser camera issues)
@@ -108,4 +109,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-05 after milestone v1.1 started*
+*Last updated: 2026-04-05 after Phase 4 complete*
