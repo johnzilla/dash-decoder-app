@@ -25,7 +25,9 @@ sessionsRouter.patch('/:id', async (req, res) => {
   }
 
   const { imageUrl, warningLightName, warningLightCode, warningLightConfidence,
-          vehicleMake, vehicleModel, vehicleYear, severity } = req.body;
+          vehicleMake, vehicleModel, vehicleYear, severity,
+          funnelCameraAt, funnelCaptureAt, funnelDiagnosisAt, funnelFeedbackAt,
+          userAgent, screenWidth, screenHeight, connectionType, variant } = req.body;
 
   // Build update object with only provided fields
   const updates: Record<string, unknown> = {};
@@ -37,6 +39,18 @@ sessionsRouter.patch('/:id', async (req, res) => {
   if (vehicleModel !== undefined) updates.vehicleModel = vehicleModel;
   if (vehicleYear !== undefined) updates.vehicleYear = vehicleYear;
   if (severity !== undefined) updates.severity = severity;
+  // Funnel timestamps — parse ISO strings to Date objects
+  if (funnelCameraAt !== undefined) updates.funnelCameraAt = new Date(funnelCameraAt);
+  if (funnelCaptureAt !== undefined) updates.funnelCaptureAt = new Date(funnelCaptureAt);
+  if (funnelDiagnosisAt !== undefined) updates.funnelDiagnosisAt = new Date(funnelDiagnosisAt);
+  if (funnelFeedbackAt !== undefined) updates.funnelFeedbackAt = new Date(funnelFeedbackAt);
+  // Device data
+  if (userAgent !== undefined) updates.userAgent = userAgent;
+  if (screenWidth !== undefined) updates.screenWidth = screenWidth;
+  if (screenHeight !== undefined) updates.screenHeight = screenHeight;
+  if (connectionType !== undefined) updates.connectionType = connectionType;
+  // A/B variant
+  if (variant !== undefined) updates.variant = variant;
 
   if (Object.keys(updates).length === 0) {
     res.status(400).json({ error: 'No fields to update' });

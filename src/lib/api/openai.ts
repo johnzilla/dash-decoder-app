@@ -15,7 +15,7 @@ import type { VisionAnalysisResult } from '@/types';
  * @param imageFile - Image File object from camera capture or file picker
  * @returns VisionAnalysisResult with warning light and vehicle guess
  */
-export async function analyzeWarningLight(imageFile: File): Promise<VisionAnalysisResult> {
+export async function analyzeWarningLight(imageFile: File): Promise<VisionAnalysisResult & { sessionId?: number }> {
   const formData = new FormData();
   formData.append('image', imageFile);
   formData.append('type', 'analyze');
@@ -41,7 +41,7 @@ export async function analyzeWarningLight(imageFile: File): Promise<VisionAnalys
     rawAnalysis: data.rawAnalysis,
   });
 
-  return result;
+  return { ...result, sessionId: data.sessionId as number | undefined };
 }
 
 /**

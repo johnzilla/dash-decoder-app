@@ -11,6 +11,18 @@ export const scanSessions = pgTable('scan_sessions', {
   vehicleModel: varchar('vehicle_model', { length: 100 }),
   vehicleYear: integer('vehicle_year'),
   severity: varchar('severity', { length: 20 }),
+  // Funnel timestamps (ANLYT-03, D-06)
+  funnelCameraAt: timestamp('funnel_camera_at'),
+  funnelCaptureAt: timestamp('funnel_capture_at'),
+  funnelDiagnosisAt: timestamp('funnel_diagnosis_at'),
+  funnelFeedbackAt: timestamp('funnel_feedback_at'),
+  // Device data (ANLYT-04, D-07)
+  userAgent: text('user_agent'),
+  screenWidth: integer('screen_width'),
+  screenHeight: integer('screen_height'),
+  connectionType: varchar('connection_type', { length: 20 }),
+  // A/B variant (EXPT-01, EXPT-02, D-09)
+  variant: varchar('variant', { length: 20 }),
 });
 
 export const feedback = pgTable('feedback', {
